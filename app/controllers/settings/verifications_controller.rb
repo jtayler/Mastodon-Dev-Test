@@ -44,3 +44,4 @@ class Settings::VerificationsController < Settings::BaseController
   end
 
 end
+
