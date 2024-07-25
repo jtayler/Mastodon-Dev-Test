@@ -6,16 +6,16 @@ max_threads_count = ENV.fetch('MAX_THREADS') { 5 }.to_i
 min_threads_count = ENV.fetch('MIN_THREADS') { max_threads_count }.to_i
 threads min_threads_count, max_threads_count
 
-if ENV['SOCKET']
-  bind "unix://#{ENV['SOCKET']}"
+# Skip SSL if Rails env is development
+if ENV['RAILS_ENV'] == 'production'
+  ssl_bind '0.0.0.0', '3001', {
+    key: "/etc/ssl/private/privkey.pem",
+    cert: "/etc/ssl/certs/fullchain.pem"
+  }
 else
   bind "tcp://#{ENV.fetch('BIND', '0.0.0.0')}:#{ENV.fetch('PORT', 3000)}"
 end
 
-ssl_bind '0.0.0.0', '3001', {
-  key: "/etc/ssl/private/privkey.pem",
-  cert: "/etc/ssl/certs/fullchain.pem"
-}
 
 environment ENV.fetch('RAILS_ENV') { 'development' }
 workers     ENV.fetch('WEB_CONCURRENCY') { 2 }.to_i

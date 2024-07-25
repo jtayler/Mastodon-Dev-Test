@@ -1,0 +1,6 @@
+{
+    "watch": ["app/javascript"],
+    "exec": "bin/webpack-dev-server --config webpack.config.js --progress --color",
+    "legacyWatch": true,
+    "ext": "js jsx"
+}

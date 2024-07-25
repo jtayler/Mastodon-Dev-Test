@@ -58,6 +58,8 @@ namespace :admin do
     resource :discovery, only: [:show, :update], controller: 'discovery'
   end
 
+  resources :api_keys, only: [:index, :create, :update, :destroy]
+
   resources :site_uploads, only: [:destroy]
 
   resources :invites, only: [:index, :create, :destroy] do

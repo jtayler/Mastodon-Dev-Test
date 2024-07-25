@@ -14,7 +14,7 @@ services:
       - /etc/letsencrypt/live/trustyantler.truanon.com/privkey.pem:/etc/ssl/private/privkey.pem
     working_dir: /app
     env_file:
-      - ../.env.development
+      - ../.env.production
 
     environment:
       RAILS_ENV: development
@@ -38,7 +38,7 @@ services:
       SMTP_DELIVERY_METHOD: smtp
 
     # Overrides default command so things don't shut down after the process ends.
-    command: sleep infinity
+    command: bash -c "foreman start -f Procfile.dev & sleep infinity"
     ports:
       - "80:3000" # for port 80
       - "443:3001"  # This maps HTTPS traffic from the host's port 443 to the container's port 3000

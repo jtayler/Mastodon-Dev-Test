@@ -1,0 +1,10 @@
+- content_for :page_title do
+  = t('admin.api_keys.title')
+
+#api_keys{ data: { admin_component: 'ApiKeys', props: @api_keys.to_json } }
+
+= simple_form_for @api_key, url: admin_api_keys_path do |f|
+  = render 'shared/error_messages', object: @api_key
+
+  -# .actions
+  -#   = f.button :button, t('admin.api_keys.create'), type: :submit

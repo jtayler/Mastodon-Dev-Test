@@ -13,6 +13,18 @@ import {
   SERVER_DOMAIN_BLOCKS_FETCH_REQUEST,
   SERVER_DOMAIN_BLOCKS_FETCH_SUCCESS,
   SERVER_DOMAIN_BLOCKS_FETCH_FAIL,
+  API_KEYS_FETCH_REQUEST,
+  API_KEYS_FETCH_SUCCESS,
+  API_KEYS_FETCH_FAIL,
+  API_KEY_CREATE_REQUEST,
+  API_KEY_CREATE_SUCCESS,
+  API_KEY_CREATE_FAIL,
+  API_KEY_UPDATE_REQUEST,
+  API_KEY_UPDATE_SUCCESS,
+  API_KEY_UPDATE_FAIL,
+  API_KEY_DELETE_REQUEST,
+  API_KEY_DELETE_SUCCESS,
+  API_KEY_DELETE_FAIL,
 } from 'mastodon/actions/server';
 
 const initialState = ImmutableMap({
@@ -27,6 +39,12 @@ const initialState = ImmutableMap({
   domainBlocks: ImmutableMap({
     isLoading: false,
     isAvailable: true,
+    items: ImmutableList(),
+  }),
+  apiKeys: ImmutableMap({
+    isLoading: false,
+    isCreating: false,
+    isDeleting: false,
     items: ImmutableList(),
   }),
 });
@@ -57,6 +75,33 @@ export default function server(state = initialState, action) {
     return state.setIn(['domainBlocks', 'items'], fromJS(action.blocks)).setIn(['domainBlocks', 'isLoading'], false).setIn(['domainBlocks', 'isAvailable'], action.isAvailable);
   case SERVER_DOMAIN_BLOCKS_FETCH_FAIL:
     return state.setIn(['domainBlocks', 'isLoading'], false);
+    case API_KEYS_FETCH_REQUEST:
+      return state.setIn(['apiKeys', 'isLoading'], true);
+  case API_KEYS_FETCH_SUCCESS:
+    return state.setIn(['apiKeys', 'items'], fromJS(action.apiKeys))
+                .setIn(['apiKeys', 'isLoading'], false);
+  case API_KEYS_FETCH_FAIL:
+    return state.setIn(['apiKeys', 'isLoading'], false);
+
+  case API_KEY_CREATE_REQUEST:
+    return state.setIn(['apiKeys', 'isCreating'], true);
+  case API_KEY_CREATE_SUCCESS:
+    return state.updateIn(['apiKeys', 'items'], items => {
+      if (!ImmutableList.isList(items)) {
+        items = ImmutableList();
+      }
+      return items.push(fromJS(action.apiKey));
+    }).setIn(['apiKeys', 'isCreating'], false);
+  case API_KEY_CREATE_FAIL:
+    return state.setIn(['apiKeys', 'isCreating'], false);
+
+  case API_KEY_DELETE_REQUEST:
+    return state.setIn(['apiKeys', 'isDeleting'], true);
+  case API_KEY_DELETE_SUCCESS:
+    return state.updateIn(['apiKeys', 'items'], items => items.filterNot(item => item.get('id') === action.id))
+                .setIn(['apiKeys', 'isDeleting'], false);
+  case API_KEY_DELETE_FAIL:
+    return state.setIn(['apiKeys', 'isDeleting'], false);
   default:
     return state;
   }

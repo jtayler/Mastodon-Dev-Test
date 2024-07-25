@@ -1,0 +1,36 @@
+# app/views/admin/api_keys/create.html.haml
+%h1 API Keys
+
+%table
+  %thead
+    %tr
+      %th Key
+      %th Description
+      %th Actions
+  %tbody
+    - @api_keys.each do |api_key|
+      %tr
+        %td= api_key.key
+        %td= api_key.description
+        %td
+          = link_to 'Edit', edit_admin_api_key_path(api_key)
+          = link_to 'Delete', admin_api_key_path(api_key), method: :delete, data: { confirm: 'Are you sure?' }
+
+= form_with(model: [ :admin, @api_key ], local: true) do |form|
+  - if @api_key.errors.any?
+    #error_explanation
+      %h2= "#{pluralize(@api_key.errors.count, 'error')} prohibited this API key from being saved:"
+      %ul
+        - @api_key.errors.full_messages.each do |message|
+          %li= message
+
+  .field
+    = form.label :key
+    = form.text_field :key
+
+  .field
+    = form.label :description
+    = form.text_field :description
+
+  .actions
+    = form.submit 'Save API key'

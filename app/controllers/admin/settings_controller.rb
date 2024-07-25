@@ -4,16 +4,16 @@ module Admin
   class SettingsController < BaseController
     def show
       authorize :settings, :show?
-
       @admin_settings = Form::AdminSettings.new
     end
 
     def update
-      puts "Update action called!"
-      if @account.update(verifications_params)
-        redirect_to settings_verification_path, notice: 'Successfully updated.'
+      authorize :settings, :update?
+      @admin_settings = Form::AdminSettings.new(settings_params)
+
+      if @admin_settings.save
+        redirect_to after_update_redirect_path, notice: I18n.t('generic.changes_saved_msg')
       else
-        flash[:error] = 'Error saving changes. Please try again.'
         render :show
       end
     end
@@ -22,6 +22,10 @@ module Admin
 
     def settings_params
       params.require(:form_admin_settings).permit(*Form::AdminSettings::KEYS)
+    end
+
+    def after_update_redirect_path
+      admin_settings_path
     end
   end
 end

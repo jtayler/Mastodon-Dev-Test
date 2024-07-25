@@ -2150,6 +2150,7 @@ a.account__display-name {
 }
 
 .columns-area {
+  
   display: flex;
   flex: 1 1 auto;
   flex-direction: row;
@@ -2448,6 +2449,8 @@ $ui-header-height: 55px;
     min-height: calc(100vh - $ui-header-height);
   }
 
+
+  
   .columns-area__panels__pane--navigational {
     min-width: $sidebar-width;
 
