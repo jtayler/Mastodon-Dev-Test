@@ -5,17 +5,13 @@ class Settings::VerificationsController < Settings::BaseController
 
   def show
     @verified_links = @account.fields.select(&:verified?)
-  
-    begin
-      truanon_service = TruAnonService.new(@account)
-      truanon_service.verify_user
-      @verify_url = truanon_service.get_verify_url
-      @public_profile_url = truanon_service.get_public_profile_url
-      @truanon_configured = true
-    rescue StandardError => e
-      @truanon_configured = false
-      @error_message = "Your account has not been verified."
-    end
+
+    truanon_service = TruAnonService.new(@account)
+    truanon_service.verify_user
+
+    @verify_url = truanon_service.get_verify_url
+    @public_profile_url = truanon_service.get_public_profile_url
+
   end
 
   def update
@@ -44,4 +40,3 @@ class Settings::VerificationsController < Settings::BaseController
   end
 
 end
-

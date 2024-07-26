@@ -309,24 +309,6 @@ en:
       unpublish: Unpublish
       unpublished_msg: Announcement successfully unpublished!
       updated_msg: Announcement successfully updated!
-    api_keys:
-      title: "Manage Private Key"
-      create: "Create Private Key"
-      update: "Update Private Key"
-      destroy: "Delete Private Key"
-      index:
-        title: "Private Key"
-        description: "Manage your private key here."
-        new_key: "New Private Key"
-        existing_keys: "Existing private Keys"
-      form:
-        key: "Key"
-        description: "Description"
-        submit: "Save"
-      messages:
-        created: "Private key created successfully."
-        updated: "Private key updated successfully."
-        deleted: "Private key deleted successfully."
     critical_update_pending: Critical update pending
     custom_emojis:
       assign_category: Assign category
