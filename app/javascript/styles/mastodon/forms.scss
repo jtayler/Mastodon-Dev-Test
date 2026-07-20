@@ -1174,7 +1174,8 @@ code {
     font-family: $font-monospace, monospace;
   }
 
-  button {
+  button,
+  .button {
     flex: 0 0 auto;
     margin: 4px;
     text-transform: none;

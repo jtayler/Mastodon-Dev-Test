@@ -47,6 +47,8 @@ class Form::AdminSettings
     landing_page
     wrapstodon
     email_footer_text
+    truanon_service_name
+    truanon_private_key
   ).freeze
 
   INTEGER_KEYS = %i(

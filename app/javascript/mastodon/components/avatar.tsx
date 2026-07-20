@@ -12,7 +12,7 @@ import { useAccount } from '../hooks/useAccount';
 interface Props {
   account?: Pick<
     Account | AccountShapeFull,
-    'id' | 'acct' | 'avatar' | 'avatar_static'
+    'id' | 'acct' | 'avatar' | 'avatar_static' | 'truanon'
   >;
   alt?: string;
   size?: number;
@@ -41,10 +41,22 @@ export const Avatar: React.FC<Props> = ({
   const [loading, setLoading] = useState(true);
   const [error, setError] = useState(false);
 
+  // Subtle rank ring: the member's cached TruAnon rank tints the avatar edge
+  // wherever it appears, no per-post fetch. Only present when the member is
+  // showing their verified identity (the serializer gates on that).
+  const rank = account?.truanon?.rank;
   const style = {
     ...styleFromParent,
     width: `${size}px`,
     height: `${size}px`,
+    // border-box keeps the border inside the avatar's fixed size — no layout
+    // shift — and cleanly recolors the 1px border some avatars already have.
+    ...(rank
+      ? {
+          border: `1px solid var(--truanon-${rank.toLowerCase()}, transparent)`,
+          boxSizing: 'border-box' as const,
+        }
+      : {}),
   };
 
   const src = hovering || animate ? account?.avatar : account?.avatar_static;
