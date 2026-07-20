@@ -18,6 +18,17 @@ class UserSettings
   setting :default_quote_policy, default: 'public', in: %w(public followers nobody)
   setting :email_subscriptions, default: false
 
+  # TruAnon identity verification — the automatic, privacy-forward companion to
+  # Mastodon's manual rel="me" link verification. `wants_verified_identity` is
+  # the master switch (off = Unknown everywhere); the three show_* switches
+  # choose what the verified identity reveals; make_private keeps the rank but
+  # strips every outbound link and identifier. Mirrors the TruAnon WP plugin.
+  setting :wants_verified_identity, default: true
+  setting :show_personal, default: true
+  setting :show_contact, default: false
+  setting :show_social, default: true
+  setting :make_private, default: false
+
   setting_inverse_alias :indexable, :noindex
 
   namespace :web do
