@@ -12,7 +12,7 @@ import { useAccount } from '../hooks/useAccount';
 interface Props {
   account?: Pick<
     Account | AccountShapeFull,
-    'id' | 'acct' | 'avatar' | 'avatar_static' | 'truanon'
+    'id' | 'acct' | 'avatar' | 'avatar_static' | 'verified_identity'
   >;
   alt?: string;
   size?: number;
@@ -46,7 +46,7 @@ export const Avatar: React.FC<Props> = ({
   // showing their verified identity (the serializer gates on that).
   // Ring only for an actual rank — "Unknown" (unanchored / turned off) shows
   // its badge on the profile but no avatar ring, to keep the ring meaningful.
-  const rank = account?.truanon?.rank;
+  const rank = account?.verified_identity?.rank;
   const hasRankRing = !!rank && rank !== 'Unknown';
   const style = {
     ...styleFromParent,
@@ -56,7 +56,7 @@ export const Avatar: React.FC<Props> = ({
     // shift — and cleanly recolors the 1px border some avatars already have.
     ...(hasRankRing
       ? {
-          border: `1px solid var(--truanon-${rank.toLowerCase()}, transparent)`,
+          border: `1px solid var(--identity-rank-${rank.toLowerCase()}, transparent)`,
           boxSizing: 'border-box' as const,
         }
       : {}),
