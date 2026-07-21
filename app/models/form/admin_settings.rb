@@ -47,6 +47,7 @@ class Form::AdminSettings
     landing_page
     wrapstodon
     email_footer_text
+    truanon_enabled
     truanon_service_name
     truanon_private_key
   ).freeze
@@ -72,6 +73,7 @@ class Form::AdminSettings
     captcha_enabled
     authorized_fetch
     wrapstodon
+    truanon_enabled
   ).freeze
 
   UPLOAD_KEYS = %i(

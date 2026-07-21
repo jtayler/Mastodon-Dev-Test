@@ -35,6 +35,7 @@ defaults: &defaults
   allow_referrer_origin: false
   landing_page: 'trends'
   wrapstodon: true
+  truanon_enabled: true
   truanon_service_name: ''
   truanon_private_key: ''
 
